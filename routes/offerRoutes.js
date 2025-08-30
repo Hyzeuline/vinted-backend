@@ -91,7 +91,7 @@ router.get("/offers", async (req, res) => {
     }
     // pagination
     let page = 1;
-    let limit = 0;
+    let limit = 10;
 
     if (req.query.limit) {
       limit = req.query.limit;
@@ -108,13 +108,16 @@ router.get("/offers", async (req, res) => {
     console.log(limit);
 
     const findOffers = await Offer.find(filters)
-      .select("product_name product_price -_id")
+      .populate("owner")
       .limit(limit)
       .skip(skip)
       .sort(sort);
     const numOffers = findOffers.length;
 
-    return res.status(200).json(findOffers);
+    return res.status(200).json({
+      count: numOffers,
+      offers: findOffers,
+    });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
