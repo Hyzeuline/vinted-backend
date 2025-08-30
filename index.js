@@ -10,7 +10,7 @@ app.use(
     origin: [
       "http://localhost:3000", // React classique
       "http://localhost:5173", // Vite
-      "https://ton-app.netlify.app", // Ton Netlify
+      "https://dashing-basbousa-e64055.netlify.app", // Ton Netlify
     ],
     credentials: true,
   })
