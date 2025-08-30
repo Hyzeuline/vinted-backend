@@ -57,67 +57,62 @@ router.get("/offers", async (req, res) => {
     //récupérer le nombre d'offres créées
     // console.log(numOffers);
     // Filter
-    // const filters = {};
-    // const sort = {};
-    const findOffers = await Offer.find().populate("owner");
-    const numOffers = await Offer.countDocuments();
+    const filters = {};
+    const sort = {};
 
-    console.log("Nombre total d'offres:", numOffers);
-    console.log("Offres trouvées:", findOffers.length);
+    //création des cléfs avec différents filtres
 
-    // //création des cléfs avec différents filtres
+    //filtrer en fonction du nom
+    if (req.query.title) {
+      filters.product_name = new RegExp(req.query.title, "i");
+    }
 
-    // //filtrer en fonction du nom
-    // if (req.query.title) {
-    //   filters.product_name = new RegExp(req.query.title, "i");
-    // }
+    //filtrer en fonction jusqu'à un prix minimal (non inclus) et maximal(non inclus)
+    if (req.query.priceMin && req.query.priceMax) {
+      filters.product_price = {
+        $gt: req.query.priceMin,
+        $lt: req.query.priceMax,
+      };
+      //filtrer en fonction d'un prix minimum ou égal
+    } else if (req.query.priceMin) {
+      filters.product_price = { $gte: req.query.priceMin };
+    }
+    //filtrer en fonction jusqu'à un prix maximal ou égal
+    else if (req.query.priceMax) {
+      filters.product_price = { $lte: req.query.priceMax };
+    }
+    //filtrer par prix décroissant
+    if (req.query.sort === "price-desc") {
+      sort.product_price = "desc";
 
-    // //filtrer en fonction jusqu'à un prix minimal (non inclus) et maximal(non inclus)
-    // if (req.query.priceMin && req.query.priceMax) {
-    //   filters.product_price = {
-    //     $gt: req.query.priceMin,
-    //     $lt: req.query.priceMax,
-    //   };
-    //   //filtrer en fonction d'un prix minimum ou égal
-    // } else if (req.query.priceMin) {
-    //   filters.product_price = { $gte: req.query.priceMin };
-    // }
-    // //filtrer en fonction jusqu'à un prix maximal ou égal
-    // else if (req.query.priceMax) {
-    //   filters.product_price = { $lte: req.query.priceMax };
-    // }
-    // //filtrer par prix décroissant
-    // if (req.query.sort === "price-desc") {
-    //   sort.product_price = "desc";
+      // filtrer par prix croissant
+    } else if (req.query.sort === "price-asc") {
+      sort.product_price = "asc";
+    }
+    // pagination
+    let page = 1;
+    let limit = 10;
 
-    //   // filtrer par prix croissant
-    // } else if (req.query.sort === "price-asc") {
-    //   sort.product_price = "asc";
-    // }
-    // // pagination
-    // let page = 1;
-    // let limit = 10;
+    if (req.query.limit) {
+      limit = req.query.limit;
+    }
+    if (req.query.page) {
+      page = req.query.page;
+    }
 
-    // if (req.query.limit) {
-    //   limit = req.query.limit;
-    // }
-    // if (req.query.page) {
-    //   page = req.query.page;
-    // }
+    let skip = (page - 1) * limit;
 
-    // let skip = (page - 1) * limit;
+    console.log(filters);
+    console.log(sort);
+    console.log(page);
+    console.log(limit);
 
-    // console.log(filters);
-    // console.log(sort);
-    // console.log(page);
-    // console.log(limit);
-
-    // const findOffers = await Offer.find(filters)
-    //   .populate("owner")
-    //   .limit(limit)
-    //   .skip(skip)
-    //   .sort(sort);
-    // const numOffers = findOffers.length;
+    const findOffers = await Offer.find(filters)
+      .populate("owner")
+      .limit(limit)
+      .skip(skip)
+      .sort(sort);
+    const numOffers = findOffers.length;
 
     return res.status(200).json({
       count: numOffers,
