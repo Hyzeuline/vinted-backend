@@ -77,7 +77,7 @@ router.post("/user/login", async (req, res) => {
     const userDetails = {
       _id: existUser._id,
       token: existUser.token,
-      account: { unsername: existUser.account.username },
+      account: { username: existUser.account.username },
     };
     return res.status(200).json({ userDetails });
   } catch (error) {
