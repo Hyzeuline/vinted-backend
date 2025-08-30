@@ -112,12 +112,12 @@ router.get("/offers", async (req, res) => {
     console.log(page);
     console.log(limit);
 
-    const findOffers = await Offer.find(filters)
-      .populate("owner")
-      .limit(limit)
-      .skip(skip)
-      .sort(sort);
-    const numOffers = findOffers.length;
+    // const findOffers = await Offer.find(filters)
+    //   .populate("owner")
+    //   .limit(limit)
+    //   .skip(skip)
+    //   .sort(sort);
+    // const numOffers = findOffers.length;
 
     return res.status(200).json({
       count: numOffers,
