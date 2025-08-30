@@ -57,8 +57,13 @@ router.get("/offers", async (req, res) => {
     //récupérer le nombre d'offres créées
     // console.log(numOffers);
     // Filter
-    const filters = {};
-    const sort = {};
+    // const filters = {};
+    // const sort = {};
+    const findOffers = await Offer.find().populate("owner");
+    const numOffers = await Offer.countDocuments();
+
+    console.log("Nombre total d'offres:", numOffers);
+    console.log("Offres trouvées:", findOffers.length);
 
     //création des cléfs avec différents filtres
 
