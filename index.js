@@ -18,7 +18,10 @@ app.use(
 app.use(express.json());
 
 // mongoose.connect("mongodb://localhost:27017/vinted");
-mongoose.connect(process.env.MONGODB_URI);
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => console.log("Connected to MongoDB"))
+  .catch(err => console.error(err));
 
 cloudinary.config({
   //je connecte mon drive à mon fichier
