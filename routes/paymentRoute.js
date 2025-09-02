@@ -13,7 +13,7 @@ router.post("/payment", async (req, res) => {
       // Devise de la transaction
       currency: "eur",
       // Description du produit
-      title: req.body.title,
+      description: req.body.title,
     });
     // On renvoie les informations de l'intention de paiement au client
     res.json(paymentIntent);
