@@ -38,6 +38,9 @@ app.use(userRoutes);
 const offerRoutes = require("./routes/offerRoutes");
 app.use(offerRoutes);
 
+const paymentRoute = require("./routes/paymentRoute");
+app.use(paymentRoute);
+
 app.get("/", (req, res) => {
   res.json({ message: "Bienvenue sur Vinted !" });
 });
