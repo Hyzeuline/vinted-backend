@@ -20,7 +20,7 @@ router.post("/user/signup", async (req, res) => {
       !req.body.username ||
       !req.body.email ||
       !req.body.password ||
-      !req.body.newsletter
+      req.body.newsletter === undefined
     ) {
       return res.status(400).json({ message: "Missing parameters !" });
     }
