@@ -5,16 +5,17 @@ const mongoose = require("mongoose");
 const cloudinary = require("cloudinary").v2;
 
 const app = express();
-app.use(
-  cors({
-    origin: [
-      "http://localhost:3000", // React classique
-      "http://localhost:5173", // Vite
-      "https://dashing-basbousa-e64055.netlify.app", // Ton Netlify
-    ],
-    credentials: true,
-  })
-);
+app.use(cors());
+// app.use(
+//   cors({
+//     origin: [
+//       "http://localhost:3000", // React classique
+//       "http://localhost:5173", // Vite
+//       "https://dashing-basbousa-e64055.netlify.app", // Ton Netlify
+//     ],
+//     credentials: true,
+//   })
+// );
 app.use(express.json());
 
 // mongoose.connect("mongodb://localhost:27017/vinted");
