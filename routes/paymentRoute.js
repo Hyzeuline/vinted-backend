@@ -9,11 +9,11 @@ router.post("/payment", async (req, res) => {
     // On crée une intention de paiement
     const paymentIntent = await stripe.paymentIntents.create({
       // Montant de la transaction
-      amount: req.body.product_price * 100,
+      amount: req.body.amount * 100,
       // Devise de la transaction
       currency: "eur",
       // Description du produit
-      title: req.body.product_name,
+      title: req.body.title,
     });
     // On renvoie les informations de l'intention de paiement au client
     res.json(paymentIntent);
